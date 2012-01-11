@@ -8,3 +8,5 @@ el-get
 semanticdb
 custom.el
 url
+tramp 
+session.*
