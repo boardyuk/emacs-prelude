@@ -8,5 +8,7 @@ el-get
 semanticdb
 custom.el
 url
-tramp 
+tramp
 session.*
+eshell/*
+ac-comphist.dat
