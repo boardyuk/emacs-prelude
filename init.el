@@ -62,6 +62,7 @@ by Prelude.")
 
 ;; the core stuff
 (require 'prelude-packages)
+(require 'prelude-el-get)
 (require 'prelude-ui)
 (require 'prelude-core)
 (require 'prelude-mode)
