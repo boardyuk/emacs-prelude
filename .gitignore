@@ -12,3 +12,4 @@ tramp
 session.*
 eshell/*
 ac-comphist.dat
+abbrev_defs
