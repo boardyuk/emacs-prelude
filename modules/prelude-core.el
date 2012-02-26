@@ -109,16 +109,11 @@ the curson at its beginning, according to the current mode."
   (next-line 1)
   (indent-according-to-mode))
 
-;; mimic popular IDEs binding, note that it doesn't work in a terminal session
-(global-set-key [(shift return)] 'prelude-insert-empty-line)
-
 (defun prelude-move-line-up ()
   "Move up the current line."
   (interactive)
   (transpose-lines 1)
   (previous-line 2))
-
-(global-set-key [(control shift up)] 'prelude-move-line-up)
 
 (defun prelude-move-line-down ()
   "Move down the current line."
@@ -126,8 +121,6 @@ the curson at its beginning, according to the current mode."
   (next-line 1)
   (transpose-lines 1)
   (previous-line 1))
-
-(global-set-key [(control shift down)] 'prelude-move-line-down)
 
 ;; add the ability to copy and cut the current line, without marking it
 (defadvice kill-ring-save (before slick-copy activate compile)
@@ -175,16 +168,14 @@ the curson at its beginning, according to the current mode."
                                  'display '(left-fringe right-triangle)))))))
 
 (defun prelude-copy-file-name-to-clipboard ()
-  "Put the current file name on the clipboard."
+  "Copy the current buffer file name to the clipboard."
   (interactive)
   (let ((filename (if (equal major-mode 'dired-mode)
                       default-directory
                     (buffer-file-name))))
     (when filename
-      (with-temp-buffer
-        (insert filename)
-        (clipboard-kill-region (point-min) (point-max)))
-      (message filename))))
+      (kill-new filename)
+      (message "Copied buffer file name '%s' to the clipboard." filename))))
 
 (defun prelude-duplicate-current-line-or-region (arg)
   "Duplicates the current line or region ARG times.
@@ -350,6 +341,24 @@ there's a region, all lines that region covers will be duplicated."
       (set-window-start w1 s2)
       (set-window-start w2 s1)))
   (other-window 1))
+
+(defun prelude-kill-other-buffers ()
+  "Kill all buffers but the current one. Doesn't mess with special buffers."
+  (interactive)
+  (dolist (buffer (buffer-list))
+    (unless (or (eql buffer (current-buffer)) (not (buffer-file-name buffer)))
+      (kill-buffer buffer))))
+
+(defun prelude-restore-arrow-keys ()
+  "Restores arrow keys navigation in buffers."
+  (interactive)
+  (global-set-key [up]      'previous-line)
+  (global-set-key [down]    'next-line)
+  (global-set-key [left]    'backward-char)
+  (global-set-key [right]   'forward-char)
+  (global-set-key [M-right] 'right-word)
+  (global-set-key [M-left]  'left-word)
+  (message "Arrow keys navigation in buffers in now allowed."))
 
 (provide 'prelude-core)
 ;;; prelude-core.el ends here

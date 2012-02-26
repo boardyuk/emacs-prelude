@@ -40,8 +40,20 @@
   (tool-bar-mode -1))
 ;; the menu bar is mostly useless as well
 ;; but removing it under OS X doesn't make much sense
-(unless (eq system-type 'darwin)
-  (menu-bar-mode -1))
+(defun prelude-frame-config (frame)
+  "Custom behaviours for new frames."
+  (if (eq system-type 'darwin)
+      (with-selected-frame frame
+        (if (display-graphic-p)
+            (modify-frame-parameters frame '((menu-bar-lines . 1)))
+          (modify-frame-parameters frame '((menu-bar-lines . 0)))))
+    (menu-bar-mode -1)))
+
+;; run now
+(prelude-frame-config (selected-frame))
+;; and later
+(add-hook 'after-make-frame-functions 'prelude-frame-config)
+
 ;; the blinking cursor is nothing, but an annoyance
 (blink-cursor-mode -1)
 
@@ -57,6 +69,10 @@
 (line-number-mode t)
 (column-number-mode t)
 (size-indication-mode t)
+
+;; make the fringe (gutter) smaller
+;; the argument is a width in pixels (the default is 8)
+(fringe-mode 4)
 
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)

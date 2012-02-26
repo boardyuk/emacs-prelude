@@ -3,6 +3,7 @@ auto-save-list
 recentf
 savehist
 saveplace
+eshell
 elpa
 el-get
 semanticdb
@@ -13,3 +14,4 @@ session.*
 eshell/*
 ac-comphist.dat
 abbrev_defs
+ede-projects.el

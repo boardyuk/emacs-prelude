@@ -32,8 +32,10 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
+(require 'cl)
 
-(message "%s" "Emacs Prelude is powering up. Be patient, Master.")
+(message "Emacs Prelude is powering up... Be patient, Master %s!"
+         (getenv "USER"))
 
 ;; On OS X Emacs doesn't use the shell PATH if it's not started from
 ;; the shell. If you're using homebrew modifying the PATH is essential.
@@ -53,18 +55,16 @@ ELPA (or Marmalade).")
 changes in this directory. All Emacs Lisp files there are loaded automatically
 by Prelude.")
 
+;; add Prelude's directories to Emacs's `load-path'
 (add-to-list 'load-path prelude-modules-dir)
 (add-to-list 'load-path prelude-vendor-dir)
 (add-to-list 'load-path prelude-personal-dir)
 
-;; config changes made through the customize UI will be store here
-(setq custom-file (concat prelude-personal-dir "custom.el"))
-
 ;; the core stuff
 (require 'prelude-packages)
-(require 'prelude-el-get)
 (require 'prelude-ui)
 (require 'prelude-core)
+(require 'prelude-mode)
 (require 'prelude-editor)
 (require 'prelude-global-keybindings)
 
@@ -75,9 +75,9 @@ by Prelude.")
 (require 'prelude-coffee)
 (require 'prelude-common-lisp)
 (require 'prelude-emacs-lisp)
-(require 'prelude-erc)
 (require 'prelude-groovy)
 (require 'prelude-haskell)
+(require 'prelude-erlang)
 (require 'prelude-js)
 (require 'prelude-latex)
 (require 'prelude-markdown)
@@ -88,10 +88,18 @@ by Prelude.")
 (require 'prelude-scheme)
 (require 'prelude-xml)
 
+;; tools & utilities support
+(require 'prelude-ack)
+(require 'prelude-erc)
+
+;; config changes made through the customize UI will be store here
+(setq custom-file (concat prelude-personal-dir "custom.el"))
+
 ;; load the personal settings (this includes `custom-file')
 (when (file-exists-p prelude-personal-dir)
   (mapc 'load (directory-files prelude-personal-dir nil "^[^#].*el$")))
 
-(message "%s" "Emacs Prelude is ready to do thy bidding, Master!")
+(message "Emacs Prelude is ready to do thy bidding, Master, %s!"
+         (getenv "USER"))
 
 ;;; init.el ends here

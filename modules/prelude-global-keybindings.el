@@ -38,18 +38,11 @@
 ;; Align your code in a pretty way.
 (global-set-key (kbd "C-x \\") 'align-regexp)
 
-;; Perform general cleanup.
-(global-set-key (kbd "C-c n") 'prelude-cleanup-buffer)
-
 ;; Font size
 (define-key global-map (kbd "C-+") 'text-scale-increase)
 (define-key global-map (kbd "C--") 'text-scale-decrease)
 
-;; Jump to a definition in the current file. (This is awesome.)
-(global-set-key (kbd "M-i") 'prelude-ido-goto-symbol)
-
 ;; File finding
-(global-set-key (kbd "C-x f") 'prelude-recentf-ido-find-file)
 (global-set-key (kbd "C-c r") 'bury-buffer)
 (global-set-key (kbd "M-`") 'file-cache-minibuffer-complete)
 
@@ -60,7 +53,6 @@
 
 ;; Indentation help
 (global-set-key (kbd "C-x ^") 'join-line)
-(global-set-key (kbd "C-M-\\") 'prelude-indent-region-or-buffer)
 
 ;; Start proced in a similar manner to dired
 (global-set-key (kbd "C-x p") 'proced)
@@ -77,14 +69,8 @@
 ;; If you want to be able to M-x without meta
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
 
-;; Fetch the contents at a URL, display it raw.
-(global-set-key (kbd "C-x C-h") 'prelude-view-url)
-
 ;; A complementary binding to the apropos-command(C-h a)
 (global-set-key (kbd "C-h A") 'apropos)
-
-;; Should be able to eval-and-replace anywhere.
-(global-set-key (kbd "C-c e") 'prelude-eval-and-replace)
 
 ;; Activate occur easily inside isearch
 (define-key isearch-mode-map (kbd "C-o")
@@ -103,40 +89,20 @@
 ;; replace buffer-menu with ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-;; swap windows
-(global-set-key (kbd "C-c s") 'prelude-swap-windows)
-
-;; duplicate the current line or region
-(global-set-key (kbd "C-c d") 'prelude-duplicate-current-line-or-region)
-
-;; rename buffer & visited file
-(global-set-key (kbd "C-c r") 'prelude-rename-file-and-buffer)
-
-;; open an ansi-term buffer
-(global-set-key (kbd "C-x t") 'prelude-visit-term-buffer)
-
-;; search with google
-(global-set-key (kbd "C-c g") 'prelude-google)
-
-;; open in external application
-(global-set-key (kbd "C-c o") 'prelude-open-with)
-
 ;; toggle menu-bar visibility
 (global-set-key (kbd "<f12>") 'menu-bar-mode)
 
 ;; real Emacs hackers don't use the arrow keys
-(global-set-key (kbd "<up>") (lambda ()
-                               (interactive)
-                               (message "Arrow key navigation is disabled. Use C-p instead.")))
-(global-set-key (kbd "<down>") (lambda ()
-                                 (interactive)
-                                 (message "Arrow key navigation is disabled. Use C-n instead.")))
-(global-set-key (kbd "<left>") (lambda ()
-                                 (interactive)
-                                 (message "Arrow key navigation is disabled. Use C-b instead.")))
-(global-set-key (kbd "<right>") (lambda ()
-                                  (interactive)
-                                  (message "Arrow key navigation is disabled. Use C-f instead.")))
+(global-unset-key [up])
+(global-unset-key [down])
+(global-unset-key [left])
+(global-unset-key [right])
+
+;; use M-f and M-b instead
+(global-unset-key [M-left])
+(global-unset-key [M-right])
+
+(global-set-key (kbd "C-x g") 'magit-status)
 
 (provide 'prelude-global-keybindings)
 

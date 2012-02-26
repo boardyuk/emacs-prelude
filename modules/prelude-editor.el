@@ -123,6 +123,9 @@
 ;; highlight the current line
 (global-hl-line-mode +1)
 
+(require 'volatile-highlights)
+(volatile-highlights-mode t)
+
 ;; tramp, for sudo access
 (require 'tramp)
 ;; keep in mind known issues with zsh - see emacs wiki
@@ -155,8 +158,17 @@
 (add-hook 'message-mode-hook 'prelude-turn-on-flyspell)
 (add-hook 'text-mode-hook 'prelude-turn-on-flyspell)
 
-;; enable narrow to region
+;; enable narrowing commands
 (put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
+(put 'narrow-to-defun 'disabled nil)
+
+;; enabled change region case commands
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
+(require 'expand-region)
+(global-set-key (kbd "C-@") 'er/expand-region)
 
 ;; bookmarks
 (setq bookmark-default-file (concat user-emacs-directory "bookmarks")
@@ -175,6 +187,12 @@
 
 ;; dired - reuse current buffer by pressing 'a'
 (put 'dired-find-alternate-file 'disabled nil)
+
+;; ediff - don't start another frame
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+;; enable Prelude's keybindings
+(prelude-global-mode t)
 
 (provide 'prelude-editor)
 
